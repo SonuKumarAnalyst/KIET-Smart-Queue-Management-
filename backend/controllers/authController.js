@@ -156,23 +156,6 @@ export const logout = async (req, res) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // --- NEW: Reset Queue on Logout ---
-    const user = await User.findById(decoded.id);
-    if (user && user.role === "staff" && user.department) {
-       await import("../models/Queue.js").then(async (module) => {
-         const Queue = module.default;
-         const queue = await Queue.findOne({ department: user.department });
-         if (queue) {
-           queue.isOpen = false;
-           queue.emergencyActive = false;
-           queue.currentTicket = null;
-           await queue.save();
-           console.log(`✅ Queue reset for staff ${user.email}`);
-         }
-       });
-    }
-    // ----------------------------------
-
     await TokenBlacklist.create({
       token,
       expiresAt: new Date(decoded.exp * 1000),
