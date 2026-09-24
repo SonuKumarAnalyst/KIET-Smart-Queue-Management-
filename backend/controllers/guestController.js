@@ -108,23 +108,6 @@ export const guestJoinQueue = async (req, res) => {
     // 7️⃣ ETA
     const eta = (position - 1) * queue.averageServiceTime;
 
-    // 🆕 AUTO-CLOSE QUEUE IF LIMIT REACHED
-    if (queue.maxTickets != null) {
-      const activeAfterJoin = await Ticket.countDocuments({
-        queue: queue._id,
-        status: { $in: ["waiting", "serving"] },
-      });
-
-      if (activeAfterJoin >= queue.maxTickets) {
-        queue.isOpen = false;
-        await queue.save();
-
-        io.to(`department_${departmentId}`).emit("queue_status_changed", {
-          isOpen: false,
-        });
-      }
-    }
-
     // ✅ RESPONSE
     res.status(201).json({
       message: "Joined queue successfully",

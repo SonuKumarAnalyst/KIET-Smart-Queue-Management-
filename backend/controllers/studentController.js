@@ -124,23 +124,6 @@ export const joinQueue = async (req, res) => {
       });
     }
 
-    // 🆕 AUTO-CLOSE QUEUE IF LIMIT REACHED (IMPORTANT FIX)
-    if (queue.maxTickets != null) {
-      const activeCountAfterJoin = await Ticket.countDocuments({
-        queue: queue._id,
-        status: { $in: ["waiting", "serving"] },
-      });
-
-      if (activeCountAfterJoin >= queue.maxTickets) {
-        queue.isOpen = false;
-        await queue.save();
-
-        io.to(`department_${departmentId}`).emit("queue_status_changed", {
-          isOpen: false,
-        });
-      }
-    }
-
     // ✅ SEND RESPONSE LAST
     res.status(201).json({
       message: "Joined queue successfully",
