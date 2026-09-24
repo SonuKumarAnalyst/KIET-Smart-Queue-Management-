@@ -25,19 +25,17 @@ KIET Smart Queue provides a centralized platform for joining, monitoring, and ma
 
 ## 🖼️ Project Screenshots
 
-Store screenshots inside `docs/images/`.
+![Login Page](images/login.png)
 
-![Student Dashboard](docs/images/student-dashboard.png)
+![Student Dashboard](images/student-dashboard.png)
 
-![Queue Tracking](docs/images/queue-tracking.png)
+![Staff Dashboard](images/staff-dashboard.png)
 
-![Staff Dashboard](docs/images/staff-dashboard.png)
+![Admin Dashboard](images/admin-dashboard.png)
 
-![Admin Dashboard](docs/images/admin-dashboard.png)
+![Guest QR](images/guest-qr.png)
 
-![Guest QR](docs/images/guest-qr.png)
-
-![AI Chatbot](docs/images/ai-chatbot.png)
+![AI Chatbot](images/ai-chatbot.png)
 
 ## 🛠️ Technology Stack
 
@@ -49,7 +47,7 @@ Store screenshots inside `docs/images/`.
 | Real-Time | Socket.IO |
 | Notifications | Web Push |
 | File Uploads | Multer |
-| AI Service | Python, FastAPI, Ollama, TinyLlama |
+| AI Service | Python, FastAPI, Ollama, |
 | Server | Uvicorn |
 | Version Control | GitHub |
 
