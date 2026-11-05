@@ -92,12 +92,6 @@ User → Login / Guest QR → Select Service → Join Queue → Real-Time Tracki
 - Database: MongoDB Atlas
 - AI Service: Render
 
-## 👥 Team
-
-- Sonu Kumar
-- Bhavik Sharma
-- Dhruv Dalal
-
 ## 🎓 Project
 
 **KIET Smart Queue – A Real-Time Digital Campus Queue Management System**
