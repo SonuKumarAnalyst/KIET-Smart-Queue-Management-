@@ -33,56 +33,47 @@ export default function Home() {
     {
       name: "Student",
       path: "/student",
-      label: "S",
       desc: "Join active queues from anywhere on campus. Track your live position, receive instant notifications, and save valuable time for what matters most.",
       icon: Users,
-      color: "blue",
     },
     {
       name: "Staff",
       path: "/staff",
-      label: "T",
       desc: "Manage departmental flow with precision. Call tickets, handle emergency requests, and monitor real-time analytics to ensure efficient service delivery.",
       icon: Clock,
-      color: "emerald",
     },
     {
       name: "Admin",
       path: "/admin",
-      label: "A",
       desc: "Oversee the entire campus ecosystem. Configure departments, manage staff access, and view comprehensive reports to optimize university operations.",
       icon: Shield,
-      color: "violet",
     },
   ];
 
   return (
     <div className="min-h-screen flex flex-col overflow-hidden relative">
       
-      {/* GLOBAL BACKGROUND ELEMENTS (Replaced by NetworkBackground) */}
-      <div className="fixed inset-0 pointer-events-none -z-20">
-      </div>
-
       {/* HERO SECTION WITH PARALLAX */}
       <motion.section 
         ref={targetRef}
         style={{ opacity, scale, y }}
-        className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20 pb-32"
+        className="home-hero relative min-h-[calc(100vh-5rem)] flex flex-col justify-center items-center text-center px-5 md:px-6 pt-24 pb-20"
       >
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+          <img src="/assets/kiet-campus.png" alt="" className="home-campus-image h-full w-full object-cover" fetchPriority="high" />
+          <div className="home-campus-overlay absolute inset-0" />
         </div>
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg"
+          className="home-campus-label mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md shadow-lg"
         >
-          
-          
+          KIET University · Ghaziabad
         </motion.div>
 
-        <h1 className="text-5xl md:text-8xl font-black leading-tight tracking-tighter mb-8 bg-gradient-to-r from-[var(--text-primary)] via-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent bg-[size:200%_auto] animate-gradient-text">
+        <h1 className="home-hero-title text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight mb-7">
           {displayText}
           <span className="text-[var(--accent-primary)] animate-pulse">|</span>
         </h1>
@@ -91,7 +82,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 1 }}
-          className="text-lg md:text-2xl text-[var(--text-secondary)] max-w-3xl mx-auto mb-12 leading-relaxed font-light"
+          className="home-hero-copy text-lg md:text-2xl text-[var(--text-secondary)] max-w-3xl mx-auto mb-10 leading-relaxed font-light"
         >
           Eliminate physical lines. <span className="text-[var(--text-primary)] font-medium">Streamline services.</span> <br className="hidden md:block"/>
           Real-time tracking for a smarter campus.
@@ -101,12 +92,12 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.8, duration: 0.5 }}
-          className="flex flex-col sm:flex-row gap-5 w-full justify-center"
+          className="flex flex-col sm:flex-row gap-4 w-full justify-center px-3 sm:px-0"
         >
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link
               to="/login"
-              className="group relative px-10 py-5 rounded-2xl font-bold text-white bg-[var(--accent-primary)] overflow-hidden shadow-[0_0_50px_rgba(0,212,170,0.3)] block"
+              className="group relative px-9 py-4 rounded-xl font-bold text-white bg-[var(--accent-primary)] overflow-hidden shadow-lg block"
             >
               <span className="relative z-10 flex items-center gap-3">
                 Get Started <ArrowRight size={22} className="group-hover:translate-x-1.5 transition-transform" />
@@ -117,7 +108,7 @@ export default function Home() {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link
               to="/about"
-              className="px-10 py-5 rounded-2xl font-bold text-[var(--text-primary)] bg-white/5 border border-white/10 hover:bg-white/10 hover:border-[var(--accent-primary)] transition-all backdrop-blur-md block shadow-xl"
+              className="home-secondary-button px-9 py-4 rounded-xl font-bold text-[var(--text-primary)] transition-all backdrop-blur-md block shadow-lg"
             >
               Learn More
             </Link>
@@ -126,7 +117,7 @@ export default function Home() {
       </motion.section>
 
       {/* ROLES CARDS (Animated) */}
-      <section className="py-32 px-6 relative z-10">
+      <section className="py-20 md:py-24 px-5 md:px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 50 }}
@@ -143,9 +134,9 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.2, duration: 0.5 }}
                 whileHover={{ y: -12, transition: { duration: 0.2 } }}
-                className="group relative p-8 rounded-3xl bg-[var(--glass-bg)] border border-[var(--glass-border)] hover:border-[var(--accent-primary)] transition-all duration-300 shadow-xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)]"
+                className="group relative p-7 md:p-8 rounded-2xl bg-[var(--card-bg)] border border-[var(--glass-border)] hover:border-[var(--accent-primary)] transition-all duration-300 shadow-[var(--card-shadow)] hover:shadow-xl"
               >
-                <div className={`w-14 h-14 rounded-2xl mb-6 flex items-center justify-center bg-${role.color}-500/10 text-${role.color}-500 group-hover:bg-${role.color}-500 group-hover:text-white transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(var(--accent-primary),0.3)]`}>
+                <div className="role-card-icon w-14 h-14 rounded-2xl mb-6 flex items-center justify-center transition-all duration-300 group-hover:text-white">
                   <role.icon size={28} />
                 </div>
                 
@@ -157,7 +148,7 @@ export default function Home() {
                 </p>
 
                 <div className="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-300">
-                  <ArrowRight className={`text-${role.color}-500`} />
+                  <ArrowRight className="text-[var(--accent-primary)]" />
                 </div>
                 
                 {/* Subtle Hover Glow */}

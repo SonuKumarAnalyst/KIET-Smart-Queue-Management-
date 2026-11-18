@@ -108,9 +108,7 @@ export default function GuestJoin() {
         <>
             {/* LOGO */}
             <div className="flex flex-col items-center mb-8">
-              <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-lg mb-3">
-                CF
-              </div>
+              <img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="mb-3 h-auto w-32 rounded bg-white object-contain p-0.5" />
               <h2 className="text-xl font-bold text-blue-100">
                 KIET Smart Queue
               </h2>

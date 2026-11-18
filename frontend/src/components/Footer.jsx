@@ -40,20 +40,7 @@ export default function Footer() {
             {/* BRAND */}
             <div>
               <div className="flex items-center gap-4 mb-5 group">
-                <div
-                  className="
-                    w-12 h-12 rounded-xl
-                    bg-gradient-to-br from-blue-500 to-indigo-600
-                    flex items-center justify-center
-                    text-white font-bold text-lg
-                    shadow-xl shadow-blue-500/30
-                    transition-all duration-300
-                    group-hover:scale-105
-                  "
-                >
-                  CF
-                </div>
-
+                <img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="h-auto w-32 rounded bg-white object-contain p-0.5" />
                 <h3 className="text-xl font-semibold text-[var(--text-primary)] tracking-tight">
                   KIET Smart Queue
                 </h3>

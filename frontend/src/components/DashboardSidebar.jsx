@@ -1,6 +1,7 @@
 import { LogOut, Menu, X } from "lucide-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 
 const DashboardSidebar = ({ title, tabs, activeTab, setActiveTab }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,10 +17,13 @@ const DashboardSidebar = ({ title, tabs, activeTab, setActiveTab }) => {
     <>
       {/* MOBILE TRIGGER */}
       <div className="md:hidden fixed top-0 left-0 w-full z-50 bg-[var(--bg-secondary)] border-b border-[var(--glass-border)] p-4 flex justify-between items-center">
-        <h1 className="font-bold text-[var(--accent-primary)]">{title}</h1>
-        <button onClick={() => setIsOpen(true)} className="p-2 text-[var(--text-primary)]">
-          <Menu size={24} />
-        </button>
+        <div className="flex items-center gap-2"><img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="h-auto w-10 rounded bg-white object-contain p-0.5" /><h1 className="font-bold text-[var(--accent-primary)]">{title}</h1></div>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button onClick={() => setIsOpen(true)} className="p-2 text-[var(--text-primary)]">
+            <Menu size={24} />
+          </button>
+        </div>
       </div>
 
       {/* SIDEBAR */}
@@ -31,10 +35,13 @@ const DashboardSidebar = ({ title, tabs, activeTab, setActiveTab }) => {
         <div className="p-6 h-full flex flex-col">
           {/* HEADER */}
           <div className="flex justify-between items-center mb-10">
-             <h2 className="text-xl font-bold text-[var(--text-primary)] tracking-tight">{title}</h2>
+             <div className="flex items-center gap-2"><img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="h-auto w-10 rounded bg-white object-contain p-0.5" /><h2 className="text-xl font-bold text-[var(--text-primary)] tracking-tight">{title}</h2></div>
+             <div className="flex items-center gap-2">
+             <ThemeToggle />
              <button onClick={() => setIsOpen(false)} className="md:hidden text-[var(--text-secondary)]">
                <X size={24} />
              </button>
+             </div>
           </div>
 
           {/* NAV ITEMS */}

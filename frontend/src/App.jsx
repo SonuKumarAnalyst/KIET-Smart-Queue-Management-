@@ -1,6 +1,4 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import NetworkBackground from "./components/NetworkBackground";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -26,6 +24,7 @@ import SmoothScroll from "./components/SmoothScroll";
 import Chatbot from "./components/Chatbot";
 import FeedbackPrompt from "./components/student/FeedbackPrompt";
 import { Toaster } from "react-hot-toast";
+import ThemeToggle from "./components/ThemeToggle";
 
 
 /* ==============================
@@ -33,25 +32,6 @@ import { Toaster } from "react-hot-toast";
 ================================ */
 function Layout({ children }) {
   const location = useLocation();
-
-  /* =========================
-     THEME (UNCHANGED)
-  ========================= */
-  const [theme, _setTheme] = useState(
-    localStorage.getItem("theme") || "dark"
-  );
-
-  useEffect(() => {
-    const root = document.documentElement;
-
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   /* =========================
      ✅ HASH ROUTER SAFE CHECKS
@@ -79,7 +59,6 @@ function Layout({ children }) {
 
   const hideLayout = isGuestRoute || isAuthRoute || isDashboardRoute;
 
-  const isHome = location.pathname === "/";
   const showFooter = hash === "#/" || hash === "" || hash === "#";
 
   const isStaffRoute = hash.startsWith("#/staff");
@@ -88,11 +67,10 @@ function Layout({ children }) {
   return (
     <div className="relative min-h-screen overflow-hidden transition-colors duration-300 text-[var(--text-primary)]">
 
-  {/* Futuristic Background Only on Homepage */}
-  {isHome && <NetworkBackground />}
       {/* ===== LAYOUT UI ===== */}
       <SmoothScroll />
       {!hideLayout && <Navbar />}
+      {(isAuthRoute || isGuestRoute) && <ThemeToggle className="fixed right-4 top-4 z-[60]" />}
       {children}
       <FeedbackPrompt />
       {!isStaffRoute && !isAdminRoute && <Chatbot />}

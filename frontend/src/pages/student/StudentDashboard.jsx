@@ -238,9 +238,9 @@ export default function StudentDashboard() {
           duration: 8000,
           style: {
             borderRadius: "16px",
-            background: "rgba(15, 23, 42, 0.95)",
-            color: "#fff",
-            border: "1px solid rgba(255,255,255,0.1)",
+            background: "var(--chart-tooltip-bg)",
+            color: "var(--chart-tooltip-text)",
+            border: "1px solid var(--border-color)",
             backdropFilter: "blur(10px)",
             padding: "16px",
           },
@@ -744,7 +744,7 @@ export default function StudentDashboard() {
                               transition={{ delay: 0.2, type: "spring" }}
                               className="relative inline-block mb-8"
                             >
-                               <h3 className="text-8xl md:text-[10rem] font-black tracking-tighter text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                               <h3 className="queue-ticket-number text-8xl md:text-[10rem] font-black tracking-tighter text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
                                  {ticketInfo.ticketNumber}
                                </h3>
                                <div className="absolute -inset-4 bg-white/5 blur-2xl -z-10 rounded-full" />
@@ -1106,10 +1106,10 @@ export default function StudentDashboard() {
                               tick={{ fill: 'var(--text-secondary)', opacity: 0.5 }}
                             />
                             <Tooltip 
-                              cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                              cursor={{ fill: 'var(--surface-hover)' }}
                               contentStyle={{ 
-                                background: '#0f172a', 
-                                border: '1px solid rgba(255,255,255,0.1)',
+                                background: 'var(--chart-tooltip-bg)',
+                                border: '1px solid var(--border-color)',
                                 borderRadius: '12px',
                                 fontSize: '12px'
                               }}

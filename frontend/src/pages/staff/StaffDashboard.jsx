@@ -629,7 +629,7 @@ export default function StaffDashboard({ initialTab = "overview" }) {
                       >
                          <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500 mb-8">Currently Serving</p>
                          <div className="relative inline-block">
-                            <h2 className="text-[120px] md:text-[180px] font-black leading-none text-white drop-shadow-[0_0_50px_rgba(255,255,255,0.1)] tracking-tighter">
+                            <h2 className="queue-counter-number text-[120px] md:text-[180px] font-black leading-none text-white drop-shadow-[0_0_50px_rgba(255,255,255,0.1)] tracking-tighter">
                                {currentTicket || <span className="text-slate-800 opacity-20 italic">IDLE</span>}
                             </h2>
                             <div className="absolute -inset-10 bg-blue-500/5 blur-[80px] -z-10 rounded-full" />

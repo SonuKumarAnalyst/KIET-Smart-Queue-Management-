@@ -8,7 +8,7 @@ import {
   PieChart, Pie, Legend, LineChart, Line, AreaChart, Area
 } from 'recharts';
 
-const COLORS = ['#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#f59e0b', '#10b981', '#06b6d4'];
+const COLORS = ['var(--accent-primary)', 'var(--accent-secondary)', '#f59e0b', '#f43f5e', '#10b981', '#06b6d4', '#8b5cf6'];
 
 const AdminAnalytics = () => {
   const [data, setData] = useState(null);
@@ -157,18 +157,18 @@ const AdminAnalytics = () => {
               <AreaChart data={hourlyData}>
                 <defs>
                   <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="var(--accent-primary)" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="var(--accent-primary)" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff10" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--chart-grid)" />
                 <XAxis dataKey="hour" fontSize={10} axisLine={false} tickLine={false} />
                 <YAxis fontSize={10} axisLine={false} tickLine={false} />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '12px', color: '#fff' }}
-                  itemStyle={{ color: '#6366f1' }}
+                  contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', border: 'none', borderRadius: '12px', color: 'var(--chart-tooltip-text)' }}
+                  itemStyle={{ color: 'var(--accent-primary)' }}
                 />
-                <Area type="monotone" dataKey="count" stroke="#6366f1" strokeWidth={3} fillOpacity={1} fill="url(#colorCount)" />
+                <Area type="monotone" dataKey="count" stroke="var(--accent-primary)" strokeWidth={3} fillOpacity={1} fill="url(#colorCount)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -196,7 +196,7 @@ const AdminAnalytics = () => {
                   ))}
                 </Pie>
                 <Tooltip 
-                   contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '12px', color: '#fff' }}
+                   contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', border: 'none', borderRadius: '12px', color: 'var(--chart-tooltip-text)' }}
                 />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
               </PieChart>
@@ -212,14 +212,14 @@ const AdminAnalytics = () => {
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.staffPerformance?.map(s => ({ name: s._id, tickets: s.ticketsServed, time: Math.round(s.avgResolutionTime || 0) }))}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff10" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--chart-grid)" />
                 <XAxis dataKey="name" fontSize={10} axisLine={false} tickLine={false} />
                 <YAxis fontSize={10} axisLine={false} tickLine={false} />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '12px', color: '#fff' }}
+                  contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', border: 'none', borderRadius: '12px', color: 'var(--chart-tooltip-text)' }}
                 />
-                <Bar dataKey="tickets" fill="#10b981" radius={[4, 4, 0, 0]} name="Tickets Served" />
-                <Bar dataKey="time" fill="#f59e0b" radius={[4, 4, 0, 0]} name="Avg Time (m)" />
+                <Bar dataKey="tickets" fill="var(--accent-secondary)" radius={[4, 4, 0, 0]} name="Tickets Served" />
+                <Bar dataKey="time" fill="var(--warning-glow)" radius={[4, 4, 0, 0]} name="Avg Time (m)" />
               </BarChart>
             </ResponsiveContainer>
           </div>

@@ -34,12 +34,11 @@ export default function Signup() {
   return (
     <div className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden text-slate-100">
 
-      {/* BACKGROUND (SAME AS LOGIN) */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0a1330] via-[#0f1f4d] to-[#141b3a]" />
-
-      {/* SOFT GLOWS */}
-      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-violet-600/25 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 -right-40 w-[400px] h-[400px] bg-indigo-600/25 rounded-full blur-3xl" />
+      {/* CAMPUS PHOTO BACKGROUND */}
+      <div className="auth-campus-backdrop absolute inset-0" aria-hidden="true">
+        <img src="/assets/kiet-campus.png" alt="" className="auth-campus-image h-full w-full object-cover" />
+        <div className="auth-campus-overlay absolute inset-0" />
+      </div>
 
       {/* CARD */}
       <div
@@ -68,17 +67,7 @@ export default function Signup() {
 
         {/* LOGO */}
         <div className="flex flex-col items-center mb-10 relative mt-4">
-          <div
-            className="
-              w-14 h-14 rounded-2xl
-              bg-gradient-to-br from-blue-500 to-indigo-600
-              flex items-center justify-center
-              text-white font-bold text-2xl
-              shadow-lg shadow-blue-500/30 mb-4
-            "
-          >
-            CF
-          </div>
+          <img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="mb-4 h-auto w-36 rounded bg-white object-contain p-0.5" />
 
           <h2 className="text-2xl font-bold text-white tracking-tight">
             KIET Smart Queue

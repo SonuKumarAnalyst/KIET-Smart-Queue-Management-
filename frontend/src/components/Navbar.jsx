@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Menu, X, Rocket, ShieldCheck, QrCode } from "lucide-react";
+import { Menu, X, ShieldCheck, QrCode } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -40,9 +41,7 @@ export default function Navbar() {
             to="/"
             className="flex items-center gap-3 font-bold text-[var(--text-primary)] transition-all hover:scale-105"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white flex items-center justify-center font-bold shadow-[0_0_15px_rgba(0,212,170,0.4)]">
-              CF
-            </div>
+            <img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="h-auto w-[112px] max-w-[34vw] rounded bg-white object-contain p-0.5" />
             <span className="text-xl tracking-tight text-glow">KIET Smart Queue</span>
           </Link>
 
@@ -79,50 +78,7 @@ export default function Navbar() {
           {/* RIGHT SIDE */}
           <div className="hidden lg:flex items-center gap-6">
             
-            {/* Theme Toggle (Nebula Style) */}
-            <button
-              onClick={() => {
-                const html = document.documentElement;
-                if (html.classList.contains('dark')) {
-                  html.classList.remove('dark');
-                  localStorage.setItem('theme', 'light');
-                } else {
-                  html.classList.add('dark');
-                  localStorage.setItem('theme', 'dark');
-                }
-              }}
-              className="group p-2.5 rounded-full border border-[var(--glass-border)] bg-[rgba(255,255,255,0.05)] text-[var(--accent-primary)] hover:bg-[rgba(var(--accent-primary),0.1)] hover:border-[var(--accent-primary)] transition-all duration-300 active:scale-95"
-              title="Toggle Theme"
-            >
-              <div className="relative w-5 h-5">
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  className="w-5 h-5 absolute inset-0 transition-all duration-500 rotate-0 dark:rotate-180 scale-0 dark:scale-100 opacity-0 dark:opacity-100" // Sun (shows in dark)
-                >
-                  <circle cx="12" cy="12" r="5" />
-                  <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-                </svg>
-                
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  className="w-5 h-5 absolute inset-0 transition-transform duration-500 rotate-0 dark:-rotate-180 scale-100 dark:scale-0 opacity-100 dark:opacity-0" // Moon (shows in light)
-                >
-                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                </svg>
-              </div>
-            </button>
+            <ThemeToggle />
 
             <div className="h-8 w-px bg-[var(--glass-border)] mx-1"></div>
 
@@ -190,6 +146,11 @@ export default function Navbar() {
               </Link>
             );
           })}
+
+          <div className="flex items-center justify-between rounded-xl border border-[var(--glass-border)] p-3">
+            <span className="text-sm font-medium text-[var(--text-secondary)]">Theme</span>
+            <ThemeToggle />
+          </div>
 
           <div className="h-px bg-[var(--glass-border)] my-2" />
 

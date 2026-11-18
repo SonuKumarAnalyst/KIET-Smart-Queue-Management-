@@ -31,17 +31,18 @@ class Particle {
     }
   }
 
-  draw(ctx) {
+  draw(ctx, isDark) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     
     if (!this.isDrifter) {
       ctx.shadowBlur = 12 + Math.sin(this.pulse) * 6;
-      ctx.shadowColor = "#00ffe1";
-      ctx.fillStyle = `rgba(0, 255, 225, ${0.8 + Math.sin(this.pulse) * 0.2})`;
+      const particleColor = isDark ? "0, 210, 190" : "22, 119, 255";
+      ctx.shadowColor = isDark ? "#22D3C5" : "#1677FF";
+      ctx.fillStyle = `rgba(${particleColor}, ${isDark ? 0.72 + Math.sin(this.pulse) * 0.12 : 0.30 + Math.sin(this.pulse) * 0.08})`;
     } else {
       ctx.shadowBlur = 0;
-      ctx.fillStyle = `rgba(0, 255, 225, ${this.opacity})`;
+      ctx.fillStyle = isDark ? `rgba(0, 210, 190, ${this.opacity * 0.55})` : `rgba(22, 119, 255, ${this.opacity * 0.24})`;
     }
     
     ctx.fill();
@@ -81,7 +82,7 @@ export default function NetworkBackground() {
     };
     initParticles();
 
-    const connect = () => {
+    const connect = (isDark) => {
       ctx.lineWidth = 0.6;
       for (let a = 0; a < particles.length; a++) {
         if (particles[a].isDrifter) continue;
@@ -95,7 +96,7 @@ export default function NetworkBackground() {
           if (dist < connectionDist) {
             const opacity = (1 - dist / connectionDist) * 0.2;
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(0, 255, 225, ${opacity})`;
+            ctx.strokeStyle = isDark ? `rgba(0, 210, 190, ${opacity * 0.7})` : `rgba(22, 119, 255, ${opacity * 0.28})`;
             ctx.moveTo(particles[a].x, particles[a].y);
             ctx.lineTo(particles[b].x, particles[b].y);
             ctx.stroke();
@@ -105,6 +106,7 @@ export default function NetworkBackground() {
     };
 
     const animate = () => {
+      const isDark = document.documentElement.classList.contains("dark");
       const grad = ctx.createRadialGradient(
         window.innerWidth / 2, 
         window.innerHeight / 2, 
@@ -113,17 +115,17 @@ export default function NetworkBackground() {
         window.innerHeight / 2, 
         window.innerWidth
       );
-      grad.addColorStop(0, "#0a192f");
-      grad.addColorStop(1, "#000000");
+      grad.addColorStop(0, isDark ? "#0A192F" : "#FFFFFF");
+      grad.addColorStop(1, isDark ? "#07111F" : "#F7F8FA");
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
       particles.forEach(p => {
         p.update();
-        p.draw(ctx);
+        p.draw(ctx, isDark);
       });
 
-      connect();
+      connect(isDark);
       requestAnimationFrame(animate);
     };
 

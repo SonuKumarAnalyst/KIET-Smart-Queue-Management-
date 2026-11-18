@@ -41,8 +41,12 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="relative w-full max-w-md glass-card rounded-2xl shadow-xl p-8 border">
+    <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden">
+      <div className="auth-campus-backdrop absolute inset-0" aria-hidden="true">
+        <img src="/assets/kiet-campus.png" alt="" className="auth-campus-image h-full w-full object-cover" />
+        <div className="auth-campus-overlay absolute inset-0" />
+      </div>
+      <div className="relative z-10 w-full max-w-md glass-card rounded-2xl shadow-xl p-8 border">
         
         {/* BACK BUTTON */}
         <button 
@@ -55,9 +59,7 @@ export default function Login() {
 
         {/* HEADER */}
         <div className="text-center mb-8 mt-4">
-          <div className="w-12 h-12 bg-[var(--accent-primary)] rounded-xl flex items-center justify-center text-white font-bold text-xl mx-auto mb-4 shadow-lg shadow-[0_0_20px_rgba(0,212,170,0.3)]">
-            CF
-          </div>
+          <img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="mx-auto mb-4 h-auto w-32 rounded bg-white object-contain p-0.5" />
           <h1 className="text-2xl font-bold text-[var(--text-primary)]">Welcome Back</h1>
           <p className="text-[var(--text-secondary)] mt-2 text-sm">Sign in to your account</p>
         </div>
