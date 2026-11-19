@@ -12,6 +12,7 @@ import StaffQr from "../models/StaffQr.js";
 import { sendPushToUser } from "../utils/push.js";
 import { sendTicketEmail } from "../services/email.service.js";
 import Department from "../models/Department.js";
+import CallSession from "../models/CallSession.js";
 
 
 // ==============================
@@ -308,6 +309,20 @@ export const completeTicket = async (req, res) => {
     ticket.status = "completed";
     ticket.servedAt = new Date();
     await ticket.save();
+
+    const activeCall = await CallSession.findOne({
+      ticket: ticket._id,
+      status: { $in: ["ringing", "active", "accepted"] },
+    });
+    if (activeCall) {
+      activeCall.status = "ended";
+      activeCall.endedAt = new Date();
+      await activeCall.save();
+      if (ticket.user) {
+        io.to(`user_${ticket.user}`).emit("call_ended", { callId: activeCall._id });
+      }
+      io.to(`user_${req.user.id}`).emit("call_ended", { callId: activeCall._id });
+    }
 
     // 🚨 SYNC WITH EMERGENCY SYSTEM
     if (ticket.emergency) {

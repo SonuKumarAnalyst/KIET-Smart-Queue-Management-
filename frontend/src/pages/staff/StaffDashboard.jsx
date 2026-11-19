@@ -11,11 +11,12 @@ import {
   markNoShow,
   sendBroadcast,
 } from "../../services/staff";
+import { startVideoCall } from "../../services/calls";
 import api from "../../services/api";
 import { socket } from "../../services/socket";
 import DashboardSidebar from "../../components/DashboardSidebar";
 import { getDepartmentSupportRequests, updateSupportRequest } from "../../services/support";
-import { Activity, Settings, QrCode, Megaphone, User, Users, LayoutDashboard, Calendar, Clock, CheckCircle, XCircle, AlertTriangle, RotateCcw, Info, Flame, ArrowRight, HelpCircle } from "lucide-react";
+import { Activity, Settings, QrCode, Megaphone, User, Users, LayoutDashboard, Calendar, Clock, CheckCircle, XCircle, AlertTriangle, RotateCcw, Info, Flame, ArrowRight, HelpCircle, Video } from "lucide-react";
 
 export default function StaffDashboard({ initialTab = "overview" }) {
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -91,6 +92,7 @@ export default function StaffDashboard({ initialTab = "overview" }) {
          setCurrentTicket(data.currentTicketDetails.ticketNumber);
          fetchActiveTicketDetails(data.currentTicketDetails._id);
       }
+      if (data?._id) socket.emit("join_user", data._id);
       if (!joinedRef.current && data?.department?._id) {
         socket.emit("join_department", data.department._id);
         joinedRef.current = true;
@@ -386,6 +388,20 @@ export default function StaffDashboard({ initialTab = "overview" }) {
       fetchStats();
     } catch (err) {
       setMessage(err.response?.data?.message || "No tickets in queue");
+    }
+  };
+
+  const handleStartVideoCall = async () => {
+    if (!activeTicketData?._id) {
+      setMessage("Call a student ticket before starting a video call");
+      return;
+    }
+    try {
+      const call = await startVideoCall(activeTicketData._id);
+      window.dispatchEvent(new CustomEvent("open-video-call", { detail: call }));
+      setMessage("Video call started. Waiting for the student.");
+    } catch (err) {
+      setMessage(err.response?.data?.message || "Could not start the video call");
     }
   };
 
@@ -709,15 +725,26 @@ export default function StaffDashboard({ initialTab = "overview" }) {
                        <CheckCircle size={24} /> Resolve Emergency
                     </motion.button>
                  ) : (
-                    <motion.button
-                       whileHover={{ scale: 1.05 }}
-                       whileTap={{ scale: 0.95 }}
-                       onClick={handleCompleteTicket}
-                       disabled={!currentTicket || completing}
-                       className="nebula-card bg-white/5 border-white/10 px-16 py-6 text-xl rounded-[2rem] w-full md:w-auto hover:bg-white/10 text-white font-black transition-all flex items-center gap-3"
-                    >
-                       {completing ? "Completing..." : "End Session"} <RotateCcw size={24} className={completing ? "animate-spin" : ""} />
-                    </motion.button>
+                    <>
+                       <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={handleStartVideoCall}
+                          disabled={!activeTicketData?._id}
+                          className="nebula-card border-blue-500/30 bg-blue-500/10 px-10 py-6 text-xl rounded-[2rem] w-full md:w-auto hover:bg-blue-500/20 text-blue-400 font-black transition-all flex items-center justify-center gap-3 disabled:opacity-40"
+                       >
+                          <Video size={24} /> Video Call
+                       </motion.button>
+                       <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={handleCompleteTicket}
+                          disabled={!currentTicket || completing}
+                          className="nebula-card bg-white/5 border-white/10 px-16 py-6 text-xl rounded-[2rem] w-full md:w-auto hover:bg-white/10 text-white font-black transition-all flex items-center gap-3"
+                       >
+                          {completing ? "Completing..." : "End Session"} <RotateCcw size={24} className={completing ? "animate-spin" : ""} />
+                       </motion.button>
+                    </>
                  )}
 
                  <div className="flex gap-4 w-full md:w-auto">

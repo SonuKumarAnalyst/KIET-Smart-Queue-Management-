@@ -25,6 +25,7 @@ import Chatbot from "./components/Chatbot";
 import FeedbackPrompt from "./components/student/FeedbackPrompt";
 import { Toaster } from "react-hot-toast";
 import ThemeToggle from "./components/ThemeToggle";
+import VideoCallModal from "./components/VideoCallModal";
 
 
 /* ==============================
@@ -72,6 +73,7 @@ function Layout({ children }) {
       {!hideLayout && <Navbar />}
       {(isAuthRoute || isGuestRoute) && <ThemeToggle className="fixed right-4 top-4 z-[60]" />}
       {children}
+      <VideoCallModal />
       <FeedbackPrompt />
       {!isStaffRoute && !isAdminRoute && <Chatbot />}
       <Toaster 

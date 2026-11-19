@@ -20,6 +20,7 @@ import notificationRoutes from "./routes/notificationRoutes.js";
 import chatbotRoutes from "./routes/chatbotRoutes.js";
 import appointmentRoutes from "./routes/appointmentRoutes.js";
 import supportRoutes from "./routes/supportRoutes.js";
+import callRoutes from "./routes/callRoutes.js";
 import { initWebPush } from "./utils/push.js";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -87,6 +88,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/chatbot", chatbotRoutes);
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/support", supportRoutes);
+app.use("/api/calls", callRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 

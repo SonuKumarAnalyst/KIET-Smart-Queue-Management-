@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Megaphone, Users, User, Clock, AlertTriangle, CheckCircle, Info, LayoutDashboard, PlusCircle, Calendar, Coffee, RotateCcw, Trophy, Zap, Flame, Map as MapIcon, TrendingUp, HelpCircle } from "lucide-react";
+import { Megaphone, Users, User, Clock, AlertTriangle, CheckCircle, Info, LayoutDashboard, PlusCircle, Calendar, Coffee, RotateCcw, Trophy, Zap, Flame, Map as MapIcon, TrendingUp, HelpCircle, Video } from "lucide-react";
 import {
   getDepartments,
   joinQueue,
@@ -21,6 +21,7 @@ import DashboardSidebar from "../../components/DashboardSidebar";
 import toast from "react-hot-toast";
 import QueueRunner from "../../components/student/QueueRunner";
 import StudentHelpdesk from "../../components/student/StudentHelpdesk";
+import { getActiveVideoCall } from "../../services/calls";
 
 export default function StudentDashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -497,6 +498,20 @@ export default function StudentDashboard() {
     } catch { setMessage("Failed to leave queue"); }
   };
 
+  const handleRejoinVideoCall = async () => {
+    if (!ticketInfo?._id) return;
+    try {
+      const call = await getActiveVideoCall(ticketInfo._id);
+      if (call) {
+        window.dispatchEvent(new CustomEvent("open-video-call", { detail: call }));
+      } else {
+        toast("No active video call");
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Could not open the video call");
+    }
+  };
+
   const handleToggleHold = async () => {
     try {
       const res = await toggleHold();
@@ -818,6 +833,14 @@ export default function StudentDashboard() {
                          </div>
                          
                          <div className="flex flex-wrap items-center justify-center gap-4 mt-12">
+                            {ticketInfo.status === "serving" && (
+                              <button
+                                onClick={handleRejoinVideoCall}
+                                className="flex items-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/15 px-8 py-3 font-bold text-blue-400 shadow-lg transition-all hover:bg-blue-500/25"
+                              >
+                                <Video size={18} /> Join Video Call
+                              </button>
+                            )}
                             {(ticketInfo.status === 'waiting' || ticketInfo.status === 'hold') && (
                               <button 
                                 onClick={handleToggleHold} 
