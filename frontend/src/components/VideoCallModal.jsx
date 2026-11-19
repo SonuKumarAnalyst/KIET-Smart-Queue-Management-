@@ -48,6 +48,15 @@ export default function VideoCallModal() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key !== "Escape" || !incoming) return;
+      rejectVideoCall(incoming.callId).finally(() => setIncoming(null));
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [incoming]);
+
   const handleAccept = async () => {
     try {
       const call = await acceptVideoCall(incoming.callId);
@@ -83,13 +92,13 @@ export default function VideoCallModal() {
 
   if (incoming) {
     return (
-      <div className="fixed inset-0 z-[300] flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-md">
+      <div className="fixed inset-0 z-[300] flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-md" role="dialog" aria-modal="true" aria-labelledby="incoming-call-title">
         <div className="w-full max-w-sm rounded-3xl border border-[var(--border-color)] bg-[var(--surface-card)] p-6 text-center shadow-2xl">
           <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/15 text-blue-500">
             <Video size={30} />
           </div>
           <p className="text-xs font-black uppercase tracking-[0.25em] text-[var(--accent-primary)]">Incoming video call</p>
-          <h2 className="mt-3 text-2xl font-bold text-[var(--text-primary)]">{incoming.staffName}</h2>
+          <h2 id="incoming-call-title" className="mt-3 text-2xl font-bold text-[var(--text-primary)]">{incoming.staffName}</h2>
           <p className="mt-2 text-sm text-[var(--text-secondary)]">
             Ticket {incoming.ticketNumber}
           </p>

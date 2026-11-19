@@ -120,6 +120,8 @@ export default function Navbar() {
           {/* MOBILE BUTTON */}
           <button
             onClick={() => setOpen(!open)}
+            aria-expanded={open}
+            aria-label={open ? "Close navigation" : "Open navigation"}
             className="lg:hidden p-2 rounded-lg text-[var(--text-primary)] hover:bg-[var(--glass-bg)] transition-colors border border-transparent hover:border-[var(--glass-border)]"
           >
             {open ? <X size={24} /> : <Menu size={24} />}

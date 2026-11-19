@@ -798,9 +798,9 @@ export default function StudentDashboard() {
                                </h4>
                                <div className="space-y-6">
                                   {[
-                                    { title: "Free Coffee @ Library", time: "2m ago", desc: "Show your active KIET Smart Queue ticket at the Library Cafe for a 50% discount!" },
-                                    { title: "Career Fair Tomorrow", time: "1h ago", desc: "30+ companies visiting the Great Hall. Don't forget your CV." },
-                                    { title: "Student Union Elections", time: "3h ago", desc: "Voting is now open. Every vote counts towards campus improvements." }
+                                    { title: "Keep this page open", time: "Live", desc: "Your active ticket updates automatically as the queue moves." },
+                                    { title: "Arrive when called", time: "Live", desc: "Check the arrival window and proceed to the counter promptly." },
+                                    { title: "Need help?", time: "Helpdesk", desc: "Use the self-service panel for support and appointment queries." }
                                   ].map((news, i) => (
                                     <div key={i} className="group cursor-pointer">
                                        <div className="flex justify-between items-start mb-1">

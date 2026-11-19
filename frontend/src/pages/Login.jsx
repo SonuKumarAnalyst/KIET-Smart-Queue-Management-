@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ArrowLeft, Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/auth";
 import { socket } from "../services/socket";
@@ -12,6 +13,8 @@ export default function Login() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -20,6 +23,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       setLoading(true);
+      setError("");
 
       const data = await loginUser(form);
 
@@ -34,85 +38,58 @@ export default function Login() {
       if (data.user.role === "staff") navigate("/staff");
       if (data.user.role === "admin") navigate("/admin");
     } catch (err) {
-      alert(err.response?.data?.message || "Login failed");
+      setError(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden">
-      <div className="auth-campus-backdrop absolute inset-0" aria-hidden="true">
-        <img src="/assets/kiet-campus.png" alt="" className="auth-campus-image h-full w-full object-cover" />
-        <div className="auth-campus-overlay absolute inset-0" />
-      </div>
-      <div className="relative z-10 w-full max-w-md glass-card rounded-2xl shadow-xl p-8 border">
-        
-        {/* BACK BUTTON */}
-        <button 
-          onClick={() => navigate("/")} 
-          className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-full transition-all border border-transparent hover:border-[var(--glass-border)] text-sm group"
-          title="Back to Home"
-        >
-          <span className="group-hover:-translate-x-0.5 transition-transform">←</span> Back
-        </button>
-
-        {/* HEADER */}
-        <div className="text-center mb-8 mt-4">
-          <img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="mx-auto mb-4 h-auto w-32 rounded bg-white object-contain p-0.5" />
-          <h1 className="text-2xl font-bold text-[var(--text-primary)]">Welcome Back</h1>
-          <p className="text-[var(--text-secondary)] mt-2 text-sm">Sign in to your account</p>
+    <main className="auth-shell min-h-screen">
+      <button type="button" onClick={() => navigate("/")} className="auth-back" aria-label="Back to home">
+        <ArrowLeft size={18} /> Back
+      </button>
+      <div className="auth-campus-panel" aria-hidden="true">
+        <img src="/assets/kiet-campus.png" alt="" className="auth-campus-image" />
+        <div className="auth-campus-overlay" />
+        <div className="auth-campus-copy">
+          <p>KIET University · Ghaziabad</p>
+          <h1>Campus services, <span>without the wait.</span></h1>
         </div>
-
-        {/* INPUTS */}
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Email Address</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="you@campus.edu"
-              value={form.email}
-              onChange={handleChange}
-              className="input-field"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-[var(--text-primary)] mb-1">Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="••••••••"
-              value={form.password}
-              onChange={handleChange}
-              className="input-field"
-            />
-          </div>
-        </div>
-
-        {/* BUTTON */}
-        <button
-          onClick={handleLogin}
-          disabled={loading}
-          className="btn-primary w-full mt-8 py-3 text-lg shadow-lg shadow-blue-500/20"
-        >
-          {loading ? "Signing in..." : "Sign In"}
-        </button>
-
-        {/* FOOTER */}
-        <p className="text-center text-sm text-[var(--text-secondary)] mt-8">
-          Don't have an account?{" "}
-          <span
-            onClick={() => navigate("/signup")}
-            className="text-blue-600 font-semibold cursor-pointer hover:underline"
-          >
-            Create account
-          </span>
-        </p>
-
       </div>
-    </div>
+      <div className="auth-form-panel">
+        <form className="auth-card" onSubmit={(event) => { event.preventDefault(); handleLogin(); }} noValidate>
+          <img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="auth-logo" />
+          <div className="auth-heading">
+            <p>KIET Smart Queue</p>
+            <h2>Welcome back</h2>
+            <span>Sign in to continue</span>
+          </div>
+          {error && <div className="auth-error" role="alert">{error}</div>}
+          <label className="auth-field">
+            <span>Email address</span>
+            <div className="auth-input-wrap">
+              <Mail size={18} aria-hidden="true" />
+              <input type="email" name="email" autoComplete="email" placeholder="you@campus.edu" value={form.email} onChange={handleChange} required />
+            </div>
+          </label>
+          <label className="auth-field">
+            <span>Password</span>
+            <div className="auth-input-wrap">
+              <LockKeyhole size={18} aria-hidden="true" />
+              <input type={showPassword ? "text" : "password"} name="password" autoComplete="current-password" placeholder="Enter your password" value={form.password} onChange={handleChange} required />
+              <button type="button" className="auth-eye" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"}>
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          </label>
+          <button type="submit" disabled={loading || !form.email || !form.password} className="btn-primary auth-submit">
+            {loading ? "Signing in..." : "Sign in"}
+          </button>
+          <p className="auth-footer">New to KIET Smart Queue? <button type="button" onClick={() => navigate("/signup")}>Create account</button></p>
+        </form>
+      </div>
+    </main>
   );
 }
 

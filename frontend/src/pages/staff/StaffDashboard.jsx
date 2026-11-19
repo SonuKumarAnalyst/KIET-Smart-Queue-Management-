@@ -686,8 +686,8 @@ export default function StaffDashboard({ initialTab = "overview" }) {
                           <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Avg. Service Time</p>
                           <Clock size={18} className="text-purple-400" />
                        </div>
-                       <h4 className="text-6xl font-black text-white mb-2">12<span className="text-2xl ml-1 opacity-40">m</span></h4>
-                       <p className="text-[10px] font-bold text-slate-500 uppercase">Per student today</p>
+                       <h4 className="text-5xl font-black text-white mb-2">{stats.serving || 0}<span className="text-2xl ml-1 opacity-40"> active</span></h4>
+                       <p className="text-[10px] font-bold text-slate-500 uppercase">Tickets currently serving</p>
                     </div>
 
                     <div className="nebula-card p-8 flex flex-col justify-center border-green-500/10 hover:border-green-500/30">
@@ -696,7 +696,7 @@ export default function StaffDashboard({ initialTab = "overview" }) {
                           <CheckCircle size={18} className="text-green-400" />
                        </div>
                        <h4 className="text-6xl font-black text-white mb-2">{stats.served}</h4>
-                       <p className="text-[10px] font-bold text-slate-500 uppercase">Success rate: 98%</p>
+                       <p className="text-[10px] font-bold text-slate-500 uppercase">Completed in this department</p>
                     </div>
                  </div>
               </div>

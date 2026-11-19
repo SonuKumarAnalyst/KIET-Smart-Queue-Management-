@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ArrowLeft, Eye, EyeOff, LockKeyhole, Mail, User } from "lucide-react";
 import { signupUser } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +14,8 @@ export default function Signup() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -21,199 +24,76 @@ export default function Signup() {
   const handleSignup = async () => {
     try {
       setLoading(true);
+      setError("");
       await signupUser(form);
-      alert("Signup successful");
       navigate("/login");
     } catch (err) {
-      alert(err.response?.data?.message || "Signup failed");
+      setError(err.response?.data?.message || "Signup failed");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden text-slate-100">
-
-      {/* CAMPUS PHOTO BACKGROUND */}
-      <div className="auth-campus-backdrop absolute inset-0" aria-hidden="true">
-        <img src="/assets/kiet-campus.png" alt="" className="auth-campus-image h-full w-full object-cover" />
-        <div className="auth-campus-overlay absolute inset-0" />
+    <main className="auth-shell min-h-screen">
+      <button type="button" onClick={() => navigate("/")} className="auth-back" aria-label="Back to home">
+        <ArrowLeft size={18} /> Back
+      </button>
+      <div className="auth-campus-panel" aria-hidden="true">
+        <img src="/assets/kiet-campus.png" alt="" className="auth-campus-image" />
+        <div className="auth-campus-overlay" />
+        <div className="auth-campus-copy">
+          <p>KIET University · Ghaziabad</p>
+          <h1>One queue. <span>Every service.</span></h1>
+        </div>
       </div>
-
-      {/* CARD */}
-      <div
-        className="
-          relative z-10
-          w-full max-w-lg
-          rounded-3xl
-          bg-white/5 backdrop-blur-xl
-          border border-white/10
-          px-10 py-10
-          shadow-[0_30px_90px_rgba(0,0,0,0.55)]
-          transition-all duration-300
-          hover:shadow-[0_45px_130px_rgba(0,0,0,0.75)]
-          hover:scale-[1.01]
-          animate-auth-card
-        "
-      >
-        {/* BACK BUTTON */}
-        <button 
-          onClick={() => navigate("/")} 
-          className="absolute top-6 left-6 flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white rounded-full transition-all border border-transparent hover:border-white/10 text-sm group"
-          title="Back to Home"
-        >
-          <span className="group-hover:-translate-x-0.5 transition-transform">←</span> Back
-        </button>
-
-        {/* LOGO */}
-        <div className="flex flex-col items-center mb-10 relative mt-4">
-          <img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="mb-4 h-auto w-36 rounded bg-white object-contain p-0.5" />
-
-          <h2 className="text-2xl font-bold text-white tracking-tight">
-            KIET Smart Queue
-          </h2>
-        </div>
-
-        {/* HEADER */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-200 via-indigo-200 to-violet-200 mb-2">
-            Create Account
-          </h1>
-          <p className="text-slate-400 text-sm">
-            Join the campus network today
-          </p>
-        </div>
-
-        {/* INPUTS */}
-        <div className="space-y-5">
-          <div className="group">
-            <input
-              name="fullName"
-              placeholder="Full Name"
-              value={form.fullName}
-              onChange={handleChange}
-              className="
-                w-full px-5 py-4 rounded-xl
-                bg-white/5 border border-white/10
-                text-white placeholder-slate-500
-                focus:bg-white/10 focus:border-blue-500/50
-                focus:ring-4 focus:ring-blue-500/10
-                transition-all duration-300 outline-none
-              "
-            />
+      <div className="auth-form-panel">
+        <form className="auth-card auth-card-signup" onSubmit={(event) => { event.preventDefault(); handleSignup(); }} noValidate>
+          <img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="auth-logo" />
+          <div className="auth-heading">
+            <p>KIET Smart Queue</p>
+            <h2>Create account</h2>
+            <span>Join the campus network</span>
           </div>
-
-          <div className="group">
-            <input
-              name="email"
-              type="email"
-              placeholder="Email address"
-              value={form.email}
-              onChange={handleChange}
-              className="
-                w-full px-5 py-4 rounded-xl
-                bg-white/5 border border-white/10
-                text-white placeholder-slate-500
-                focus:bg-white/10 focus:border-blue-500/50
-                focus:ring-4 focus:ring-blue-500/10
-                transition-all duration-300 outline-none
-              "
-            />
-          </div>
-
-          <div className="group">
-            <input
-              name="password"
-              type="password"
-              placeholder="Password"
-              value={form.password}
-              onChange={handleChange}
-              className="
-                w-full px-5 py-4 rounded-xl
-                bg-white/5 border border-white/10
-                text-white placeholder-slate-500
-                focus:bg-white/10 focus:border-blue-500/50
-                focus:ring-4 focus:ring-blue-500/10
-                transition-all duration-300 outline-none
-              "
-            />
-          </div>
-
-          <div className="relative group">
-            <select
-              name="role"
-              value={form.role}
-              onChange={handleChange}
-              className="
-                w-full px-5 py-4 rounded-xl
-                bg-white/5 border border-white/10
-                text-white
-                focus:bg-white/10 focus:border-blue-500/50
-                focus:ring-4 focus:ring-blue-500/10
-                transition-all duration-300 outline-none
-                appearance-none cursor-pointer
-              "
-            >
-              <option value="" disabled>Select Role</option>
+          {error && <div className="auth-error" role="alert">{error}</div>}
+          <label className="auth-field">
+            <span>Full name</span>
+            <div className="auth-input-wrap">
+              <User size={18} aria-hidden="true" />
+              <input name="fullName" autoComplete="name" placeholder="Enter full name" value={form.fullName} onChange={handleChange} required />
+            </div>
+          </label>
+          <label className="auth-field">
+            <span>Email address</span>
+            <div className="auth-input-wrap">
+              <Mail size={18} aria-hidden="true" />
+              <input name="email" type="email" autoComplete="email" placeholder="you@campus.edu" value={form.email} onChange={handleChange} required />
+            </div>
+          </label>
+          <label className="auth-field">
+            <span>Password</span>
+            <div className="auth-input-wrap">
+              <LockKeyhole size={18} aria-hidden="true" />
+              <input name="password" type={showPassword ? "text" : "password"} autoComplete="new-password" placeholder="Minimum 6 characters" value={form.password} onChange={handleChange} minLength={6} required />
+              <button type="button" className="auth-eye" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"}>
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          </label>
+          <label className="auth-field">
+            <span>Account role</span>
+            <select name="role" value={form.role} onChange={handleChange} required>
+              <option value="" disabled>Select role</option>
               <option value="student">Student</option>
               <option value="staff">Staff</option>
             </select>
-            <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-              ▼
-            </div>
-          </div>
-        </div>
-
-        {/* SIGNUP BUTTON */}
-        <button
-          onClick={handleSignup}
-          disabled={loading || !form.role}
-          className="
-            w-full mt-8 py-3.5 rounded-xl
-            text-white font-semibold
-            bg-gradient-to-r from-blue-600 to-indigo-600
-            shadow-lg
-            transition-all duration-300
-            hover:from-blue-700 hover:to-indigo-700
-            hover:-translate-y-[1px]
-            active:translate-y-0
-            disabled:opacity-60 disabled:cursor-not-allowed
-          "
-        >
-          {loading ? "Creating account..." : "Signup"}
-        </button>
-
-        {/* FOOTER */}
-        <p className="text-center text-slate-400 mt-6 text-sm">
-          Already have an account?{" "}
-          <span
-            onClick={() => navigate("/login")}
-            className="text-violet-400 font-medium cursor-pointer hover:underline"
-          >
-            Login
-          </span>
-        </p>
+          </label>
+          <button type="submit" disabled={loading || !form.fullName || !form.email || form.password.length < 6 || !form.role} className="btn-primary auth-submit">
+            {loading ? "Creating account..." : "Create account"}
+          </button>
+          <p className="auth-footer">Already registered? <button type="button" onClick={() => navigate("/login")}>Sign in</button></p>
+        </form>
       </div>
-
-      {/* ANIMATION */}
-      <style>
-        {`
-          @keyframes authCard {
-            from {
-              opacity: 0;
-              transform: translateY(20px) scale(0.97);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0) scale(1);
-            }
-          }
-
-          .animate-auth-card {
-            animation: authCard 0.55s ease-out forwards;
-          }
-        `}
-      </style>
-    </div>
+    </main>
   );
 }

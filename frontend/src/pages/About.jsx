@@ -11,13 +11,20 @@ export default function About() {
         </Link>
 
         {/* HEADER */}
-        <div className="mb-20">
+        <div className="mb-20 overflow-hidden rounded-3xl border border-[var(--border-color)] bg-[var(--surface-card)] shadow-[var(--card-shadow)]">
+          <div className="relative h-64 md:h-80">
+            <img src="/assets/kiet-campus.png" alt="KIET University campus" className="h-full w-full object-cover" loading="lazy" />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/35 to-transparent" />
+            <p className="absolute bottom-6 left-6 rounded-full border border-white/20 bg-slate-950/55 px-4 py-2 text-xs font-bold uppercase tracking-widest text-white backdrop-blur-md">KIET University · Ghaziabad</p>
+          </div>
+          <div className="p-7 md:p-10">
           <h1 className="text-5xl md:text-7xl font-bold text-[var(--text-primary)] mb-6 text-glow">
             About the <br /> <span className="text-[var(--accent-primary)]">System</span>
           </h1>
           <p className="text-xl text-(--text-secondary) leading-relaxed max-w-2xl">
             A modern digital queue management solution designed to reduce waiting time, avoid congestion, and streamline campus services through smart automation.
           </p>
+          </div>
         </div>
 
         {/* CARDS */}

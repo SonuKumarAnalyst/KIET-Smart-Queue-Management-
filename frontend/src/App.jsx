@@ -1,19 +1,20 @@
 import { Routes, Route, useLocation } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import About from "./pages/About";
+const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./pages/Login"));
+const Signup = lazy(() => import("./pages/Signup"));
+const About = lazy(() => import("./pages/About"));
 
-import StudentDashboard from "./pages/student/StudentDashboard";
+const StudentDashboard = lazy(() => import("./pages/student/StudentDashboard"));
 import ErrorBoundary from "./components/ErrorBoundary";
-import StaffDashboard from "./pages/staff/StaffDashboard";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import Profile from "./pages/Profile";
+const StaffDashboard = lazy(() => import("./pages/staff/StaffDashboard"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const Profile = lazy(() => import("./pages/Profile"));
 
-import GuestJoin from "./pages/guest/GuestJoin";
-import GuestTicket from "./pages/guest/GuestTicket";
-import GuestEntry from "./pages/guest/GuestEntry";
+const GuestJoin = lazy(() => import("./pages/guest/GuestJoin"));
+const GuestTicket = lazy(() => import("./pages/guest/GuestTicket"));
+const GuestEntry = lazy(() => import("./pages/guest/GuestEntry"));
 
 
 
@@ -40,30 +41,29 @@ function Layout({ children }) {
   /* =========================
      ✅ HASH ROUTER SAFE CHECKS
   ========================= */
-  const hash = location.hash || "#/";
-
-  
+  const path = location.pathname || "/";
 
   const isGuestRoute =
-    hash.startsWith("#/guest/join") ||
-    hash.startsWith("#/guest/ticket");
+    path.startsWith("/guest/join") ||
+    path.startsWith("/guest/ticket") ||
+    path.startsWith("/guest/entry");
 
   const isAuthRoute =
-    hash.startsWith("#/login") ||
-    hash.startsWith("#/signup");
+    path.startsWith("/login") ||
+    path.startsWith("/signup");
     
   const isDashboardRoute = 
-    hash.startsWith("#/student") || 
-    hash.startsWith("#/staff") || 
-    hash.startsWith("#/admin") ||
-    hash.startsWith("#/profile");
+    path.startsWith("/student") ||
+    path.startsWith("/staff") ||
+    path.startsWith("/admin") ||
+    path.startsWith("/profile");
 
   const hideLayout = isGuestRoute || isAuthRoute || isDashboardRoute;
 
-  const showFooter = hash === "#/" || hash === "" || hash === "#";
+  const showFooter = path === "/";
 
-  const isStaffRoute = hash.startsWith("#/staff");
-  const isAdminRoute = hash.startsWith("#/admin");
+  const isStaffRoute = path.startsWith("/staff");
+  const isAdminRoute = path.startsWith("/admin");
 
   return (
     <div className="relative min-h-screen overflow-hidden transition-colors duration-300 text-[var(--text-primary)]">
@@ -74,8 +74,8 @@ function Layout({ children }) {
       {(isAuthRoute || isGuestRoute) && <ThemeToggle className="fixed right-4 top-4 z-[60]" />}
       {children}
       <VideoCallModal />
-      <FeedbackPrompt />
-      {!isStaffRoute && !isAdminRoute && <Chatbot />}
+      {isDashboardRoute && <FeedbackPrompt />}
+      {!isStaffRoute && !isAdminRoute && !isAuthRoute && !isGuestRoute && <Chatbot />}
       <Toaster 
         position="top-right"
         toastOptions={{
@@ -98,6 +98,7 @@ function Layout({ children }) {
 export default function App() {
   return (
     <Layout>
+      <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center text-[var(--text-secondary)]" role="status">Loading KIET Smart Queue…</div>}>
       <Routes>
         {/* =======================
             Public Routes
@@ -168,6 +169,7 @@ export default function App() {
           }
         />
       </Routes>
+      </Suspense>
     </Layout>
   );
 }

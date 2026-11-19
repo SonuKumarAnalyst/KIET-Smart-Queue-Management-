@@ -94,71 +94,38 @@ export default function GuestJoin() {
      UI
   ========================== */
   return (
-    <div className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden text-slate-100">
-      {/* BACKGROUND */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0a1330] via-[#0f1f4d] to-[#141b3a]" />
-
-      {/* GLOWS */}
-      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-violet-600/25 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 -right-40 w-[400px] h-[400px] bg-indigo-600/25 rounded-full blur-3xl" />
-
-      {/* CARD */}
-      <div className="relative z-10 w-full max-w-md rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 px-8 py-10 shadow-[0_30px_90px_rgba(0,0,0,0.55)]">
-        
-        <>
-            {/* LOGO */}
-            <div className="flex flex-col items-center mb-8">
-              <img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="mb-3 h-auto w-32 rounded bg-white object-contain p-0.5" />
-              <h2 className="text-xl font-bold text-blue-100">
-                KIET Smart Queue
-              </h2>
-            </div>
-
-            {/* HEADER */}
-            <div className="text-center mb-8">
-              <h1 className="text-2xl font-semibold bg-gradient-to-r from-violet-400 via-fuchsia-400 to-indigo-400 bg-clip-text text-transparent">
-                Join Queue
-              </h1>
-              <p className="text-slate-400 mt-2 text-sm">
-                Enter your details to get a ticket
-              </p>
-            </div>
-
-            {message && (
-              <div className="mb-6 text-center text-sm text-red-400">
-                {message}
-              </div>
-            )}
-
-            {/* INPUTS */}
-            <input
-              placeholder="Your Name (optional)"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-5 py-4 mb-4 rounded-xl bg-white/10 border border-white/10 text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500/40"
-            />
-
-            <input
-              placeholder="Phone (optional)"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="w-full px-5 py-4 mb-6 rounded-xl bg-white/10 border border-white/10 text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500/40"
-            />
-
-            {/* BUTTON */}
-            <button
-              onClick={handleJoin}
-              disabled={loading || !sessionToken}
-              className="w-full py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50"
-            >
-              {loading ? "Joining..." : "Confirm & Join Queue"}
-            </button>
-          </>
-
-        <p className="mt-6 text-center text-xs text-slate-400">
-          You will receive a ticket number after joining
-        </p>
+    <main className="auth-shell min-h-screen">
+      <div className="auth-campus-panel" aria-hidden="true">
+        <img src="/assets/kiet-campus.png" alt="" className="auth-campus-image" />
+        <div className="auth-campus-overlay" />
+        <div className="auth-campus-copy">
+          <p>KIET University · Guest access</p>
+          <h1>Join the line. <span>Keep your place.</span></h1>
+        </div>
       </div>
-    </div>
+      <div className="auth-form-panel">
+        <form className="auth-card" onSubmit={(event) => { event.preventDefault(); handleJoin(); }}>
+          <img src="/assets/kiet-university-logo.jpg" alt="KIET University" className="auth-logo" />
+          <div className="auth-heading">
+            <p>Guest queue</p>
+            <h2>Join the queue</h2>
+            <span>Enter optional details to receive a ticket</span>
+          </div>
+          {message && <div className="auth-error" role="alert">{message}</div>}
+          <label className="auth-field">
+            <span>Name <small>(optional)</small></span>
+            <input placeholder="Your name" value={name} onChange={(event) => setName(event.target.value)} />
+          </label>
+          <label className="auth-field">
+            <span>Phone <small>(optional)</small></span>
+            <input type="tel" inputMode="tel" placeholder="Phone number" value={phone} onChange={(event) => setPhone(event.target.value)} />
+          </label>
+          <button type="submit" disabled={loading || !sessionToken} className="btn-primary auth-submit">
+            {loading ? "Joining..." : "Join queue"}
+          </button>
+          <p className="auth-footer">Your ticket and live position appear after joining.</p>
+        </form>
+      </div>
+    </main>
   );
 }

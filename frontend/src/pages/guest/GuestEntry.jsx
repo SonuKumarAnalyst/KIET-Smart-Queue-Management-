@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -6,6 +6,7 @@ export default function GuestEntry() {
   const { qrId } = useParams();
   const navigate = useNavigate();
   const hasRun = useRef(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (hasRun.current) return;
@@ -23,8 +24,8 @@ export default function GuestEntry() {
         navigate(hashPath, { replace: true });
 
       } catch (err) {
-        alert(err.response?.data?.message || "QR expired or invalid");
-        navigate("/", { replace: true });
+        setError(err.response?.data?.message || "QR expired or invalid");
+        window.setTimeout(() => navigate("/", { replace: true }), 2500);
       }
     };
 
@@ -32,10 +33,12 @@ export default function GuestEntry() {
   }, [qrId, navigate]);
 
   return (
-    <div className="flex items-center justify-center h-[70vh] text-slate-300">
-      <p className="animate-pulse text-lg">
-        Processing QR… Please wait
-      </p>
-    </div>
+    <main className="flex min-h-[70vh] items-center justify-center px-4 text-[var(--text-secondary)]" role="status" aria-live="polite">
+      {error ? (
+        <div className="auth-error max-w-md text-center">{error}</div>
+      ) : (
+        <p className="animate-pulse text-lg">Processing QR… Please wait</p>
+      )}
+    </main>
   );
 }

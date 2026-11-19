@@ -9,7 +9,8 @@ const DashboardSidebar = ({ title, tabs, activeTab, setActiveTab }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("userRole");
+    localStorage.removeItem("role");
+    localStorage.removeItem("user");
     navigate("/");
   };
 

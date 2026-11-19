@@ -218,7 +218,7 @@ export default function GuestTicket() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-slate-300 bg-[#0b1220]">
+      <div className="min-h-screen flex items-center justify-center bg-[var(--bg-primary)] text-[var(--text-secondary)]" role="status">
         Loading your ticket…
       </div>
     );
@@ -226,15 +226,18 @@ export default function GuestTicket() {
 
   if (!ticket) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-slate-300 bg-[#0b1220]">
+      <div className="min-h-screen flex items-center justify-center bg-[var(--bg-primary)] text-[var(--text-secondary)]" role="status">
         No active ticket found.
       </div>
     );
   }
 
   return (
-    <div className="relative min-h-screen flex justify-center px-4 py-12 overflow-hidden text-slate-100">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0a1330] via-[#0f1f4d] to-[#141b3a]" />
+    <main className="relative min-h-screen flex justify-center px-4 py-8 overflow-hidden bg-[var(--bg-primary)] text-[var(--text-primary)]">
+      <div className="absolute inset-0 opacity-40 pointer-events-none" aria-hidden="true">
+        <img src="/assets/kiet-campus.png" alt="" className="h-full w-full object-cover" />
+      </div>
+      <div className="absolute inset-0 bg-[var(--bg-primary)]/80 backdrop-blur-sm" aria-hidden="true" />
 
       <div className="relative z-10 w-full max-w-md">
 
@@ -326,6 +329,6 @@ export default function GuestTicket() {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 }

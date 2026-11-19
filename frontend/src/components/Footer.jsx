@@ -26,10 +26,6 @@ export default function Footer() {
       {/* TOP GLOW LINE */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
 
-      {/* SOFT BACKGROUND GLOWS */}
-      <div className="absolute -top-40 -left-40 w-[520px] h-[520px] bg-blue-600/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 -right-40 w-[420px] h-[420px] bg-violet-600/20 rounded-full blur-3xl" />
-
       {/* BACKGROUND */}
       <div className="relative bg-[var(--bg-primary)] border-t border-[var(--glass-border)]">
         <div className="max-w-7xl mx-auto px-6 pt-24 pb-10">

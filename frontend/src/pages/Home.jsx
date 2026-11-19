@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, CheckCircle, Users, Shield, Clock } from "lucide-react";
@@ -14,20 +14,6 @@ export default function Home() {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
   const y = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
-
-  const fullText = "KIET Smart Queue Management";
-  const [displayText, setDisplayText] = useState("");
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    if (index < fullText.length) {
-      const t = setTimeout(() => {
-        setDisplayText((p) => p + fullText[index]);
-        setIndex(index + 1);
-      }, 50);
-      return () => clearTimeout(t);
-    }
-  }, [index]);
 
   const roles = [
     {
@@ -59,7 +45,7 @@ export default function Home() {
         style={{ opacity, scale, y }}
         className="home-hero relative min-h-[calc(100vh-5rem)] flex flex-col justify-center items-center text-center px-5 md:px-6 pt-24 pb-20"
       >
-        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
           <img src="/assets/kiet-campus.png" alt="" className="home-campus-image h-full w-full object-cover" fetchPriority="high" />
           <div className="home-campus-overlay absolute inset-0" />
         </div>
@@ -74,8 +60,7 @@ export default function Home() {
         </motion.div>
 
         <h1 className="home-hero-title text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight mb-7">
-          {displayText}
-          <span className="text-[var(--accent-primary)] animate-pulse">|</span>
+          KIET Smart Queue Management
         </h1>
 
         <motion.p 
@@ -202,7 +187,7 @@ export default function Home() {
                           <CheckCircle size={24} />
                        </div>
                        <h3 className="text-3xl font-bold mb-4 group-hover:translate-x-1 transition-transform">Instant Notifications</h3>
-                       <p className="text-white/80 leading-relaxed mb-6">Never miss your turn. Get instant push notifications and SMS alerts when your ticket is called.</p>
+                       <p className="text-white/80 leading-relaxed mb-6">Never miss your turn. Get instant browser and device notifications when your ticket is called.</p>
                     </div>
                     
                     <div className="relative h-44 bg-white/10 rounded-2xl p-5 backdrop-blur-md border border-white/10 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 shadow-2xl">
@@ -223,7 +208,7 @@ export default function Home() {
                  >
                     <Shield size={40} className="text-purple-500 mb-4 group-hover:scale-110 transition-transform" />
                     <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">Enterprise Security</h3>
-                    <p className="text-sm text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">Bank-grade encryption and role-based access control to keep your data safe.</p>
+                    <p className="text-sm text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">Protected sessions and role-based access control help keep campus operations secure.</p>
                  </motion.div>
 
                  {/* Feature 4 */}

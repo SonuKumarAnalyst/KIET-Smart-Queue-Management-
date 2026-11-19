@@ -95,11 +95,13 @@ const Chatbot = () => {
     };
 
     return (
-        <div className="fixed bottom-6 right-6 z-[9999]">
+        <div className="chatbot-launcher fixed bottom-6 right-6 z-[9999]">
             <AnimatePresence>
                 {!isOpen && (
                     <button
                         onClick={() => setIsOpen(true)}
+                        aria-label="Open campus assistant"
+                        aria-expanded={isOpen}
                         className="bg-[var(--accent-primary)] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group relative overflow-hidden"
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -111,7 +113,7 @@ const Chatbot = () => {
             <AnimatePresence>
                 {isOpen && (
                     <div
-                        className="bg-[var(--bg-secondary)] border border-[var(--glass-border)] w-[380px] h-[550px] rounded-2xl shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
+                        className="chatbot-window bg-[var(--bg-secondary)] border border-[var(--glass-border)] w-[380px] h-[550px] rounded-2xl shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
                     >
                         {/* Header */}
                         <div className="bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] p-4 text-white flex justify-between items-center shadow-lg">
